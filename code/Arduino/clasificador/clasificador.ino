@@ -13,6 +13,7 @@
 
 // -------------------------------------------------- Constantes
 #define DEBOUNCE_DELAY 50
+#define CONTAINER_DETECTION_DELAY 1000
 
 // -------------------------------------------------- Declaraciones
 // Para la comucación UART se puede utilizar D0 y D1, o conectar por USB
@@ -44,6 +45,8 @@ int switchState[8];
 int lastSwitchState[8] = {LOW, LOW, LOW, LOW, LOW, LOW, LOW, LOW};
 long lastSwitchDebounceTime[8] = {0, 0, 0, 0, 0, 0, 0, 0};
 
+int containers[8] = {0, 0, 0, 0, 0, 0, 0, 0};
+
 // -------------------------------------------------- Funciones
 void button_state(int buttonPin, int* buttonState, int* lastButtonState, long* lastDebounceTime) {
   /* DESCRIPCIÓN 
@@ -68,6 +71,51 @@ void button_state(int buttonPin, int* buttonState, int* lastButtonState, long* l
   *lastButtonState = reading;
 }
 
+void container_detection(){
+  /**/
+  // Faltaría una especie de reset para el containerNumber
+  // Sino se puede usar siempre el siguiente valor al más alto, aunque es más trabajo al pedo
+  static long lastContainerDetectionTime;
+  static bool containerDetected = false;
+  static int containerNumber = 1; 
+  bool newContainer = false;
+
+  if(!containerDetected){
+    for(int i = 0; i < 8; i++){
+      if(switchState[i] != lastSwitchState[i]){
+        containerDetected = true;
+        lastContainerDetectionTime = millis();
+        // Serial.println("Container detected!");
+      }
+    }
+    return;
+  }
+
+  if((millis() - lastContainerDetectionTime) > CONTAINER_DETECTION_DELAY){
+    containerDetected = false;
+    // Serial.println("Container size verification...");
+
+    for(int j = 0; j < 8; j++){
+      // Esto funciona solamente si se hacen las cosas bien!!
+      // No se pueden poner diversos containers en simultáneo
+      if(!containers[j] && switchState[j]){
+          containers[j] = containerNumber;
+          newContainer = true;
+        }
+      if(containers[j] && !switchState[j]){
+        containers[j] = 0;
+      }
+      // Serial.print(containers[j]);
+      // Serial.print(" ");
+    }
+    if(newContainer){ \
+      containerNumber++; 
+    }
+    // Serial.println();
+  }
+  return;
+}
+
 void print_switch_state(){
   /**/
   for(int i = 0; i < 8; i++){
@@ -75,11 +123,6 @@ void print_switch_state(){
     Serial.print(" ");
   }
   Serial.println("");
-}
-
-void deteccionContenedores(){
-  /* DESCRIPCIÓN */
-
 }
 
 // -------------------------------------------------- Interrupciones
@@ -99,6 +142,7 @@ void loop() {
   for(int i = 0; i < 8; i++){
     button_state(CLASIFIER_SWITCHES[i], &switchState[i], &lastSwitchState[i], &lastSwitchDebounceTime[i]);
   }
-  print_switch_state();
+  // print_switch_state();
+  container_detection();
 
 }
