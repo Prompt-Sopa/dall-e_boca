@@ -70,7 +70,7 @@ void button_state(int buttonPin, int* buttonState, int* lastButtonState, long* l
 
 void print_switch_state(){
   /**/
-  for(int i = 0; i++; i < 8){
+  for(int i = 0; i < 8; i++){
     Serial.print(switchState[i]);
     Serial.print(" ");
   }
@@ -90,6 +90,7 @@ void setup() {
   for(int i = 0; i < 8; i++){
     pinMode(CLASIFIER_SWITCHES[i], INPUT);
   }
+  Serial.begin(9600);
 
 }
 
