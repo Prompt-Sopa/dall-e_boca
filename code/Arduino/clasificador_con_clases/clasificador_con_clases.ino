@@ -54,7 +54,7 @@ Clasificador clasificador(CLASIFIER_SWITCHES);
 // -------------------------------------------------- Main
 void setup() {
   // put your setup code here, to run once:
-  // clasificador.setUp();
+  clasificador.setUp();
 
   Serial.begin(9600);
 }

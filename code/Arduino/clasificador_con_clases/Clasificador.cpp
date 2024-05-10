@@ -15,7 +15,7 @@ void Clasificador::setUp(){
 void Clasificador::containerState(int n){
   /* DESCRIPCIÓN 
       GENERICA - TIENE DEBOUNCE
-      */
+  */
       
       int reading = digitalRead(clasifierSwitches[n]);
 
