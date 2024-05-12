@@ -1,4 +1,8 @@
-import serial, time
+import serial
+import time
+
+# Configura la comunicación serial
+arduino = serial.Serial('COM3', 9600)  # Asegúrate de cambiar 'COM3' al puerto que estás utilizando
 
 try:
     lista_numeros = []  # Inicializa una lista vacía para almacenar los números recibidos
@@ -12,4 +16,4 @@ try:
             print("Número recibido:", numero)
             print("Lista actualizada:", lista_numeros)
 except KeyboardInterrupt:
-    ser.close()  # Cierra la conexión serial cuando se interrumpe el programa
+    arduino.close()  # Cierra la conexión serial cuando se interrumpe el programa
