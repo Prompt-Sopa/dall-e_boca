@@ -1,16 +1,15 @@
 // -------------------------------------------------- Include
 #include <Servo.h>
+#include "Clasificador.h"
+#include "Pinout.h"
 
 // -------------------------------------------------- Declaraciones
 #define MODE_PREFIX           "mode"
 #define SERVO_MOTOR_1_PREFIX  "sm1p"
 #define SERVO_MOTOR_2_PREFIX  "sm2p"
 
-// TODO: Para que quede más ordenado, poner todo esto en un archivo .h separado
-#define SERVO_MOTOR_1 9 // Servo motor clasificador
-
 // -------------------------------------------------- Constantes
-enum modesOfOperation{
+enum operationModes{
   STOP = 0,
   RUN,
   PREPARE, 
@@ -21,6 +20,21 @@ Servo servoMotor1;
 
 // -------------------------------------------------- Variables Globales
 int pos = 0;    // Variable to store the servo position
+
+const int CLASIFIER_SWITCHES[8] = {
+  CLASIFIER_SWITCH_A,
+  CLASIFIER_SWITCH_B,
+  CLASIFIER_SWITCH_C,
+  CLASIFIER_SWITCH_D,
+  CLASIFIER_SWITCH_E,
+  CLASIFIER_SWITCH_F,
+  CLASIFIER_SWITCH_G,
+  CLASIFIER_SWITCH_H,
+};
+
+Clasificador clasificador(CLASIFIER_SWITCHES);
+
+int mode = STOP;
 
 // -------------------------------------------------- Funciones
 void servoMotorComm(Servo servo, String msg, char* prefix){
@@ -38,21 +52,32 @@ void serialMsgProcessing(String msg){
     switch(msg.substring(strlen(MODE_PREFIX)).toInt()){
       case STOP:
         // TODO: Code
+        // Detiene cinta transportadora
+        mode = STOP;
         break;
       case RUN:
         // TODO: Code
+        // Activa cinta transportadora
+        // Activa los servos
+        mode = RUN;
         break;
       case PREPARE:
         // TODO: Code
+        // Activa deteccion de contenedores
+        mode = PREPARE;
         break;
       default:
         break;
     }
+    return;
   }
   
-  // TODO: Otra forma de hacerlo es tipo con un switch cases, pero es masomenos lo mismo
-  servoMotorComm(servoMotor1, msg, SERVO_MOTOR_1_PREFIX);
-  // TODO: Agregar resto de servos. La RPi hace todo y manda la posicion unicamente
+  if(mode == RUN){
+    // TODO: Otra forma de hacerlo es tipo con un switch cases, pero es masomenos lo mismo
+    servoMotorComm(servoMotor1, msg, SERVO_MOTOR_1_PREFIX);
+    // TODO: Agregar resto de servos. La RPi hace todo y manda la posicion unicamente
+    return;
+  }
 }
 
 void ledBlink(){
@@ -63,11 +88,14 @@ void ledBlink(){
     delay(100);
   }
 }
+
 // -------------------------------------------------- Interrupciones
 
-// -------------------------------------------------- Main`
+// -------------------------------------------------- Main
 void setup() {
   servoMotor1.attach(SERVO_MOTOR_1); 
+  clasificador.setUp();
+  
   // TODO: Solo test, quitar
   pinMode(13, OUTPUT); 
   
@@ -81,4 +109,12 @@ void loop() {
     String serialMessage = Serial.readStringUntil('\n');
     serialMsgProcessing(serialMessage);
   }
+
+  if(mode == PREPARE){
+    for(int i = 0; i < MAX_CONTAINERS; i++){
+      clasificador.containerState(i);
+    }
+    clasificador.containerDetection();
+    // TODO: Si hay un cambio en los contenedor, enviar el array por serial comm
+  } 
 }
