@@ -19,13 +19,14 @@ class Clasificador{
     long lastSwitchDebounceTime[MAX_CONTAINERS] = {0, 0, 0, 0, 0, 0, 0, 0};
 
     int containers[MAX_CONTAINERS] = {0, 0, 0, 0, 0, 0, 0, 0};
-  
   public:
     Clasificador(int switchPin[]);
     void setUp();
+    int* getContainers();
 
     void containerState(int n);
-    void containerDetection();
+    bool containerDetection();
+    void serialCommSendContainers();
     void printSwitchState();
 };
 

@@ -8,35 +8,36 @@ Clasificador::Clasificador(int switchPin[]){
 
 void Clasificador::setUp(){
   for(int i = 0; i < MAX_CONTAINERS; i++){
-    pinMode(clasifierSwitches[i], INPUT);
+    pinMode(this->clasifierSwitches[i], INPUT);
   }
 }
 
-void Clasificador::containerState(int n){
-  /* DESCRIPCIÓN 
-      GENERICA - TIENE DEBOUNCE
-  */
-      
-      int reading = digitalRead(clasifierSwitches[n]);
-
-      // If the switch changed, due to noise or pressing:
-      if (reading != lastSwitchState[n]) {
-        // reset the debouncing timer
-        lastSwitchDebounceTime[n] = millis();
-      }
-
-      if ((millis() - lastSwitchDebounceTime[n]) > DEBOUNCE_DELAY) {
-        if (reading != switchState[n]) {
-          switchState[n] = reading;
-        }
-      }
-
-      // save the reading. Next time through the loop, it'll be the lastSwitchState:
-      lastSwitchState[n] = reading;
+int* Clasificador::getContainers(){
+  return this->containers; 
 }
 
-void Clasificador::containerDetection(){
- /**/
+void Clasificador::containerState(int n){
+  /*DESCRIPTION*/      
+  int reading = digitalRead(this->clasifierSwitches[n]);
+
+  // If the switch changed, due to noise or pressing:
+  if (reading != this->lastSwitchState[n]) {
+    // reset the debouncing timer
+    this->lastSwitchDebounceTime[n] = millis();
+  }
+
+  if ((millis() - this->lastSwitchDebounceTime[n]) > DEBOUNCE_DELAY) {
+    if (reading != this->switchState[n]) {
+      this->switchState[n] = reading;
+    }
+  }
+
+  // save the reading. Next time through the loop, it'll be the lastSwitchState:
+  this->lastSwitchState[n] = reading;
+}
+
+bool Clasificador::containerDetection(){
+  /*DESCRIPTION*/
   // Faltaría una especie de reset para el containerNumber
   // Sino se puede usar siempre el siguiente valor al más alto, aunque es más trabajo al pedo
   static long lastContainerDetectionTime;
@@ -46,44 +47,50 @@ void Clasificador::containerDetection(){
 
   if(!containerDetected){
     for(int i = 0; i < MAX_CONTAINERS; i++){
-      if(switchState[i] != lastSwitchState[i]){
+      if(this->switchState[i] != this->lastSwitchState[i]){
         containerDetected = true;
         lastContainerDetectionTime = millis();
-        // Serial.println("Container detected!");
       }
     }
-    return;
+    // Se deja un tiempo para la detección de containers
+    return false;
   }
 
   if((millis() - lastContainerDetectionTime) > CONTAINER_DETECTION_DELAY){
     containerDetected = false;
-    // Serial.println("Container size verification...");
 
     for(int j = 0; j < MAX_CONTAINERS; j++){
       // Esto funciona solamente si se hacen las cosas bien!!
       // No se pueden poner diversos containers en simultáneo
-      if(!containers[j] && switchState[j]){
+      if(!containers[j] && this->switchState[j]){
           containers[j] = containerNumber;
           newContainer = true;
         }
-      if(containers[j] && !switchState[j]){
+      if(containers[j] && !this->switchState[j]){
         containers[j] = 0;
       }
-      // Serial.print(containers[j]);
-      // Serial.print(" ");
     }
     if(newContainer){ \
       containerNumber++; 
     }
-    // Serial.println();
+    return true;
   }
-  return;
+
+  return false;
+}
+
+void Clasificador::serialCommSendContainers(){
+  /*DESCRIPTION*/
+  for(int i = 0; i < MAX_CONTAINERS; i++){
+    Serial.print(this->containers[i]);
+    Serial.println();
+  }
 }
 
 void Clasificador::printSwitchState(){
-  /**/
+  /*DESCRIPTION*/
   for(int i = 0; i < MAX_CONTAINERS; i++){
-    Serial.print(switchState[i]);
+    Serial.print(this->switchState[i]);
     Serial.print(" ");
   }
   Serial.println("");

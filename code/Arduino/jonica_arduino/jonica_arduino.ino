@@ -64,6 +64,7 @@ void serialMsgProcessing(String msg){
       case PREPARE:
         // TODO: Code
         // Activa deteccion de contenedores
+        // Creo que no hace más que esto, cambiar el modo para que en el main se detecten los contenedores
         mode = PREPARE;
         break;
       default:
@@ -104,7 +105,6 @@ void setup() {
 
 void loop() {
   
-  // TODO: Faltan las variables que indican en que estado del sistema nos encontramos. Hacerlo con un enum?
   if (Serial.available() > 0) { 
     String serialMessage = Serial.readStringUntil('\n');
     serialMsgProcessing(serialMessage);
@@ -114,7 +114,8 @@ void loop() {
     for(int i = 0; i < MAX_CONTAINERS; i++){
       clasificador.containerState(i);
     }
-    clasificador.containerDetection();
-    // TODO: Si hay un cambio en los contenedor, enviar el array por serial comm
+    if(clasificador.containerDetection()){
+      clasificador.serialCommSendContainers();
+    }
   } 
 }
