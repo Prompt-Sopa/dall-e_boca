@@ -24,6 +24,7 @@ class Clasificador{
     void setUp();
     int* getContainers();
 
+    // TODO: Falta una especie de reset para cada vez que se setean los containers, o que guarde el valor anterior, no sé
     void containerState(int n);
     bool containerDetection();
     void serialCommSendContainers();

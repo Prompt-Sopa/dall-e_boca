@@ -40,7 +40,7 @@ int mode = STOP;
 void servoMotorComm(Servo servo, String msg, char* prefix){
   /* Compares the serial message prefix and moves the servo motor to the corresponding position */
   
-  if (msg.startsWith(prefix)) { 
+  if(msg.startsWith(prefix)) { 
     int valor = msg.substring(strlen(prefix)).toInt(); 
     servo.write(valor);
   }

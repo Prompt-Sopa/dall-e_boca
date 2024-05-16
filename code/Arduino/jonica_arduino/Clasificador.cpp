@@ -38,7 +38,7 @@ void Clasificador::containerState(int n){
 
 bool Clasificador::containerDetection(){
   /*DESCRIPTION*/
-  // Faltaría una especie de reset para el containerNumber
+  // TODO: Faltaría una especie de reset para el containerNumber
   // Sino se puede usar siempre el siguiente valor al más alto, aunque es más trabajo al pedo
   static long lastContainerDetectionTime;
   static bool containerDetected = false;
@@ -60,7 +60,7 @@ bool Clasificador::containerDetection(){
     containerDetected = false;
 
     for(int j = 0; j < MAX_CONTAINERS; j++){
-      // Esto funciona solamente si se hacen las cosas bien!!
+      // TODO: Esto funciona solamente si se hacen las cosas bien!!
       // No se pueden poner diversos containers en simultáneo
       if(!containers[j] && this->switchState[j]){
           containers[j] = containerNumber;
