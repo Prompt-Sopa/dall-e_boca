@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="drawer_layout" type="id">drawer_layout</item>
+    <item name="home_content" type="id">home_content</item>
+    <item name="toolbar" type="id">toolbar</item>
+    <item name="navigation_view" type="id">navigation_view</item>
+</resources>
