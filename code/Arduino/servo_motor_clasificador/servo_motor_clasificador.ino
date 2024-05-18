@@ -46,15 +46,7 @@ void loop() {
   //   delay(1);                       // waits 15 ms for the servo to reach the position
   // }
   myservo.write(0);
-  delay(1000);
-  myservo.write(30);
-  delay(1000);
-  myservo.write(60);
-  delay(1000);
-  myservo.write(90);
-  delay(1000);
-  myservo.write(120);
-  delay(1000);
-  myservo.write(160);
-  delay(1000);
+  delay(2000);
+  myservo.write(180);
+  delay(2000);
 }
