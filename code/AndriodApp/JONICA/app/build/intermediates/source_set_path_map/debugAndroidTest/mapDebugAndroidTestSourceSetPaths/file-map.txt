@@ -1,0 +1,6 @@
+com.dalle_boca.jonica.test.app-androidTest-0 C:\Alejo\FCEIA\JONICA 2024\dalle-e_boca\code\AndriodApp\JONICA\app\build\generated\res\resValues\androidTest\debug
+com.dalle_boca.jonica.test.app-mergeDebugAndroidTestResources-1 C:\Alejo\FCEIA\JONICA 2024\dalle-e_boca\code\AndriodApp\JONICA\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\merged.dir
+com.dalle_boca.jonica.test.app-mergeDebugAndroidTestResources-2 C:\Alejo\FCEIA\JONICA 2024\dalle-e_boca\code\AndriodApp\JONICA\app\build\intermediates\incremental\debugAndroidTest\mergeDebugAndroidTestResources\stripped.dir
+com.dalle_boca.jonica.test.app-debugAndroidTest-3 C:\Alejo\FCEIA\JONICA 2024\dalle-e_boca\code\AndriodApp\JONICA\app\build\intermediates\merged_res\debugAndroidTest\mergeDebugAndroidTestResources
+com.dalle_boca.jonica.test.app-annotation-experimental-1.4.0-4 C:\Users\alejo\.gradle\caches\transforms-4\05599256ab8815b3e070c174b0dbf238\transformed\annotation-experimental-1.4.0\res
+com.dalle_boca.jonica.test.app-core-1.5.0-5 C:\Users\alejo\.gradle\caches\transforms-4\cdeaab977c8bc71778b5296d41352057\transformed\core-1.5.0\res

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="lavender">#8292F7</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="app_name">JONICA</string>
+    <string name="close_nav">Close Navigation Drawer</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <style name="Base.Theme.JONICA" parent="Theme.Material3.DayNight.NoActionBar">
+        
+        
+    </style>
+    <style name="Theme.JONICA" parent="Base.Theme.JONICA">
+        <item name="colorPrimary">@color/lavender</item>
+        <item name="colorPrimaryVariant">@color/lavender</item>
+        <item name="colorOnPrimary">@color/white</item>
+    </style>
+</resources>

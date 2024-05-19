@@ -1,0 +1,3 @@
+com.dalle_boca.jonica.test
+style WhiteBackgroundDialogTheme
+style WhiteBackgroundTheme

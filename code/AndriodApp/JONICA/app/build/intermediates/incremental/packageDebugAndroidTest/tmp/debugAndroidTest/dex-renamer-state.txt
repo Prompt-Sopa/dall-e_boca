@@ -1,0 +1,10 @@
+#Sat May 18 21:06:56 ART 2024
+base.0=C\:\\Alejo\\FCEIA\\JONICA 2024\\dalle-e_boca\\code\\AndriodApp\\JONICA\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeExtDexDebugAndroidTest\\classes.dex
+base.1=C\:\\Alejo\\FCEIA\\JONICA 2024\\dalle-e_boca\\code\\AndriodApp\\JONICA\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\0\\classes.dex
+base.2=C\:\\Alejo\\FCEIA\\JONICA 2024\\dalle-e_boca\\code\\AndriodApp\\JONICA\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeProjectDexDebugAndroidTest\\5\\classes.dex
+path.0=classes.dex
+path.1=0/classes.dex
+path.2=5/classes.dex
+renamed.0=classes.dex
+renamed.1=classes2.dex
+renamed.2=classes3.dex
