@@ -32,6 +32,7 @@ int pos = 0;    // variable to store the servo position
 void setup() {
   // put your setup code here, to run once:
   myservo.attach(9);  // attaches the servo on pin 9 to the servo object
+  Serial.begin(9600);
 }
 
 void loop() {
@@ -45,16 +46,10 @@ void loop() {
   //   myservo.write(pos);              // tell servo to go to position in variable 'pos'
   //   delay(1);                       // waits 15 ms for the servo to reach the position
   // }
+  Serial.println("0");
   myservo.write(0);
-  delay(1000);
-  myservo.write(30);
-  delay(1000);
-  myservo.write(60);
-  delay(1000);
-  myservo.write(90);
-  delay(1000);
-  myservo.write(120);
-  delay(1000);
-  myservo.write(160);
-  delay(1000);
+  delay(2000);
+  Serial.println("75");
+  myservo.write(75);
+  delay(2000);
 }
