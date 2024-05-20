@@ -3,4 +3,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="lavender">#8292F7</color>
+    <color name="grey">#808080</color>
+    <color name="play">#4CAF50</color>
+    <color name="pause">#FFEB3B</color>
+    <color name="stop">#F44336</color>
 </resources>
