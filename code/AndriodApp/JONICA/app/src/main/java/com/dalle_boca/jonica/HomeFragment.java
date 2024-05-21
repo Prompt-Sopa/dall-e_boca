@@ -1,13 +1,19 @@
 package com.dalle_boca.jonica;
 
+import android.app.ActionBar;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowInsets;
+import android.view.WindowInsetsController;
 import android.widget.ImageButton;
 
 public class HomeFragment extends Fragment {
@@ -16,7 +22,7 @@ public class HomeFragment extends Fragment {
     private ImageButton buttonStop;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
+        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         buttonPlay = rootView.findViewById(R.id.button_play);

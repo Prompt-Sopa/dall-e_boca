@@ -18,9 +18,9 @@
             tools:ignore="HardcodedText" />
 
         <item
-            android:id="@+id/nav_share"
-            android:icon="@drawable/nav_share"
-            android:title="Share"
+            android:id="@+id/nav_statistics"
+            android:icon="@drawable/nav_statistics"
+            android:title="Statistics"
             tools:ignore="HardcodedText" />
 
         <item
