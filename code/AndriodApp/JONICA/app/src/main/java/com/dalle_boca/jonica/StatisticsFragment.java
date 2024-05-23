@@ -12,9 +12,12 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -31,6 +34,9 @@ public class StatisticsFragment extends Fragment implements MqttMessageListener 
     ArrayList barEntriesArrayList;
     private MqttManager mqttManager;
     private static final String MQTT_OBJECT_CUBE_RED_TOPIC = "/object/cube/red";
+    private static final String MQTT_OBJECT_CUBE_GREEN_TOPIC = "/object/cube/green";
+    private static final String MQTT_OBJECT_SPHERE_RED_TOPIC = "/object/sphere/red";
+    private static final String MQTT_OBJECT_SPHERE_GREEN_TOPIC = "/object/sphere/green";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -38,19 +44,19 @@ public class StatisticsFragment extends Fragment implements MqttMessageListener 
 
         mqttManager = new MqttManager();
         mqttManager.addMessageListener((MqttMessageListener) this);
-        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_RED_TOPIC);
+
 
         // initializing variable for bar chart.
         barChart = rootView.findViewById(R.id.idBarChart);
 
         // calling method to get bar entries.
         barEntriesArrayList = new ArrayList<>();
-        for (int i = 0; i < 6; i++) { // 6 es el número de barras
+        for (int i = 0; i < 4; i++) { // 6 es el número de barras
             barEntriesArrayList.add(new BarEntry(i + 1, 0)); // El segundo parámetro es el valor inicial
         }
 
         // creating a new bar data set.
-        barDataSet = new BarDataSet(barEntriesArrayList, "Geeks for Geeks");
+        barDataSet = new BarDataSet(barEntriesArrayList, "JONICA");
 
         // creating a new bar data and passing our bar data set.
         barData = new BarData(barDataSet);
@@ -68,27 +74,63 @@ public class StatisticsFragment extends Fragment implements MqttMessageListener 
         barDataSet.setValueTextSize(16f);
         barChart.getDescription().setEnabled(false);
 
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM); // Posición de las etiquetas en la parte inferior
+        xAxis.setGranularity(1f); // Espaciado entre las etiquetas
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(new String[]{"", "cube_red", "cube_green", "sphere_red", "sphere_green"}));
+
+        // setting axis
+        YAxis yAxis = barChart.getAxisLeft();
+        yAxis.setAxisMinimum(0f); // Mínimo valor del eje Y
+        yAxis.setAxisMaximum(10f); // Máximo valor del eje Y, ajusta según sea necesario
+
+        barChart.getAxisRight().setEnabled(false); // Deshabilitar eje derecho si no es necesario
+
+        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_RED_TOPIC);
+        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_GREEN_TOPIC);
+        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_RED_TOPIC);
+        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_GREEN_TOPIC);
+
         return rootView;
     }
+
     @Override
     public void onMessageReceived(String topic, MqttMessage message) {
         // Manejar el mensaje MQTT recibido
-        if (topic.equals("/valores/motor1")) {
+        if (topic.equals(MQTT_OBJECT_CUBE_RED_TOPIC)) {
             // Actualizar el valor de la barra correspondiente al motor 1
             float newValue = Float.parseFloat(message.toString());
             updateBarEntry(0, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
         }
+        if (topic.equals(MQTT_OBJECT_CUBE_GREEN_TOPIC)) {
+            // Actualizar el valor de la barra correspondiente al motor 1
+            float newValue = Float.parseFloat(message.toString());
+            updateBarEntry(1, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
+        }
+        if (topic.equals(MQTT_OBJECT_SPHERE_RED_TOPIC)) {
+            // Actualizar el valor de la barra correspondiente al motor 1
+            float newValue = Float.parseFloat(message.toString());
+            updateBarEntry(2, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
+        }
+        if (topic.equals(MQTT_OBJECT_SPHERE_GREEN_TOPIC)) {
+            // Actualizar el valor de la barra correspondiente al motor 1
+            float newValue = Float.parseFloat(message.toString());
+            updateBarEntry(3, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
+        }
     }
+
     private void updateBarEntry(int index, float newValue) {
-        // Actualizar el valor de la barra en la posición index con el nuevo valor
         if (index >= 0 && index < barEntriesArrayList.size()) {
             BarEntry entry = (BarEntry) barEntriesArrayList.get(index);
             entry.setY(newValue);
             barEntriesArrayList.set(index, entry);
 
-            // Notificar al gráfico que los datos han cambiado y actualizarlo
-            barChart.notifyDataSetChanged();
-            barChart.invalidate();
+            // Notificar al gráfico que los datos han cambiado y actualizarlo en el hilo principal
+            requireActivity().runOnUiThread(() -> {
+                barDataSet.notifyDataSetChanged();
+                barChart.notifyDataSetChanged();
+                barChart.invalidate();
+            });
         }
     }
 }

@@ -55,13 +55,14 @@ public class MqttManager {
             e.printStackTrace();
         }
     }
+
     public void addMessageListener(MqttMessageListener listener) {
         // Registrar un oyente para recibir mensajes MQTT
         messageHandler.addMessageListener(listener);
     }
+
     public void removeMessageListener(MqttMessageListener listener) {
         // Eliminar un oyente registrado para dejar de recibir mensajes MQTT
         messageHandler.removeMessageListener(listener);
     }
-
 }
