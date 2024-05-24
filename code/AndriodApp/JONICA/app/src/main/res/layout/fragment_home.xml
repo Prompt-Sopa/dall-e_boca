@@ -10,45 +10,50 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="2"
         android:text="RPi Camera"
         android:textColor="@color/black"
         android:textSize="30sp"
+        android:gravity="center"
         android:layout_gravity="center"
         tools:ignore="HardcodedText" />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="end|center_vertical">
 
         <ImageButton
             android:id="@+id/button_play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
             android:background="@android:color/transparent"
             android:contentDescription="@string/play_button_desc"
-            android:padding="10dp"
-            android:src="@drawable/ic_play_button" />
+            android:src="@drawable/ic_play_button"
+            tools:ignore="NestedWeights" />
 
         <ImageButton
             android:id="@+id/button_pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:layout_weight="1"
             android:background="@android:color/transparent"
             android:contentDescription="@string/pause_button_desc"
-            android:padding="10dp"
             android:src="@drawable/ic_pause_button" />
 
         <ImageButton
             android:id="@+id/button_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            android:layout_width="200dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:layout_weight="1"
             android:background="@android:color/transparent"
             android:contentDescription="@string/stop_button_desc"
-            android:padding="10dp"
             android:src="@drawable/ic_stop_button_pressed" />
     </LinearLayout>
 

@@ -42,9 +42,8 @@ public class StatisticsFragment extends Fragment implements MqttMessageListener 
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_statistics, container, false);
 
-        mqttManager = new MqttManager();
-        mqttManager.addMessageListener((MqttMessageListener) this);
-
+//        mqttManager = new MqttManager();
+//        mqttManager.addMessageListener((MqttMessageListener) this);
 
         // initializing variable for bar chart.
         barChart = rootView.findViewById(R.id.idBarChart);
@@ -86,37 +85,37 @@ public class StatisticsFragment extends Fragment implements MqttMessageListener 
 
         barChart.getAxisRight().setEnabled(false); // Deshabilitar eje derecho si no es necesario
 
-        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_RED_TOPIC);
-        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_GREEN_TOPIC);
-        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_RED_TOPIC);
-        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_GREEN_TOPIC);
+//        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_RED_TOPIC);
+//        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_GREEN_TOPIC);
+//        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_RED_TOPIC);
+//        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_GREEN_TOPIC);
 
         return rootView;
     }
 
     @Override
     public void onMessageReceived(String topic, MqttMessage message) {
-        // Manejar el mensaje MQTT recibido
-        if (topic.equals(MQTT_OBJECT_CUBE_RED_TOPIC)) {
-            // Actualizar el valor de la barra correspondiente al motor 1
-            float newValue = Float.parseFloat(message.toString());
-            updateBarEntry(0, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
-        }
-        if (topic.equals(MQTT_OBJECT_CUBE_GREEN_TOPIC)) {
-            // Actualizar el valor de la barra correspondiente al motor 1
-            float newValue = Float.parseFloat(message.toString());
-            updateBarEntry(1, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
-        }
-        if (topic.equals(MQTT_OBJECT_SPHERE_RED_TOPIC)) {
-            // Actualizar el valor de la barra correspondiente al motor 1
-            float newValue = Float.parseFloat(message.toString());
-            updateBarEntry(2, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
-        }
-        if (topic.equals(MQTT_OBJECT_SPHERE_GREEN_TOPIC)) {
-            // Actualizar el valor de la barra correspondiente al motor 1
-            float newValue = Float.parseFloat(message.toString());
-            updateBarEntry(3, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
-        }
+//        // Manejar el mensaje MQTT recibido
+//        if (topic.equals(MQTT_OBJECT_CUBE_RED_TOPIC)) {
+//            // Actualizar el valor de la barra correspondiente al motor 1
+//            float newValue = Float.parseFloat(message.toString());
+//            updateBarEntry(0, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
+//        }
+//        if (topic.equals(MQTT_OBJECT_CUBE_GREEN_TOPIC)) {
+//            // Actualizar el valor de la barra correspondiente al motor 1
+//            float newValue = Float.parseFloat(message.toString());
+//            updateBarEntry(1, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
+//        }
+//        if (topic.equals(MQTT_OBJECT_SPHERE_RED_TOPIC)) {
+//            // Actualizar el valor de la barra correspondiente al motor 1
+//            float newValue = Float.parseFloat(message.toString());
+//            updateBarEntry(2, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
+//        }
+//        if (topic.equals(MQTT_OBJECT_SPHERE_GREEN_TOPIC)) {
+//            // Actualizar el valor de la barra correspondiente al motor 1
+//            float newValue = Float.parseFloat(message.toString());
+//            updateBarEntry(3, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
+//        }
     }
 
     private void updateBarEntry(int index, float newValue) {
