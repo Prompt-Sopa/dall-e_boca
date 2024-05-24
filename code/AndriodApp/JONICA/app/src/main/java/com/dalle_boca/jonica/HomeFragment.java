@@ -36,7 +36,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-        mqttManager = new MqttManager();
+//        mqttManager = new MqttManager();
 
         buttonPlay = rootView.findViewById(R.id.button_play);
         buttonPause = rootView.findViewById(R.id.button_pause);
@@ -49,8 +49,7 @@ public class HomeFragment extends Fragment {
                 buttonPause.setImageResource(R.drawable.ic_pause_button);
                 buttonStop.setImageResource(R.drawable.ic_stop_button);
 
-                // TODO: Publicar en MQTT que diga "play"
-                mqttManager.publishMessage(MQTT_MODE_TOPIC, "1");
+//                mqttManager.publishMessage(MQTT_MODE_TOPIC, "play");
             }
         });
         buttonPause.setOnClickListener(new View.OnClickListener() {
@@ -60,8 +59,7 @@ public class HomeFragment extends Fragment {
                 buttonPause.setImageResource(R.drawable.ic_pause_button_pressed);
                 buttonStop.setImageResource(R.drawable.ic_stop_button);
 
-                // TODO: Publicar en MQTT que diga "pause"
-                mqttManager.publishMessage(MQTT_MODE_TOPIC, "2");
+//                mqttManager.publishMessage(MQTT_MODE_TOPIC, "pause");
             }
         });
 
@@ -72,8 +70,7 @@ public class HomeFragment extends Fragment {
                 buttonPause.setImageResource(R.drawable.ic_pause_button);
                 buttonStop.setImageResource(R.drawable.ic_stop_button_pressed);
 
-                // TODO: Publicar en MQTT que diga "stop"
-                mqttManager.publishMessage(MQTT_MODE_TOPIC, "0");
+//                mqttManager.publishMessage(MQTT_MODE_TOPIC, "stop");
             }
         });
 
