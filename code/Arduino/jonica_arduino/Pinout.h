@@ -27,15 +27,17 @@ A5    |
 */
 
 // TODO: Actualizar esto después
-#define SERVO_MOTOR_1       9 // Servo motor clasificador
+#define CC_MOTOR_CONVEYER_BELT  3
+#define SERVO_MOTOR_CLASSIFIER  9 // Servo motor clasificador
+#define SERVO_MOTOR_INPUT       10
 
-#define CLASIFIER_SWITCH_A 2
-#define CLASIFIER_SWITCH_B 3
-#define CLASIFIER_SWITCH_C 4
-#define CLASIFIER_SWITCH_D 5
-#define CLASIFIER_SWITCH_E 6
-#define CLASIFIER_SWITCH_F 7
-#define CLASIFIER_SWITCH_G 8
-#define CLASIFIER_SWITCH_H 10
+#define CLASSIFIER_SWITCH_A     2
+#define CLASSIFIER_SWITCH_B     4
+#define CLASSIFIER_SWITCH_C     5
+#define CLASSIFIER_SWITCH_D     6
+#define CLASSIFIER_SWITCH_E     7
+#define CLASSIFIER_SWITCH_F     8
+#define CLASSIFIER_SWITCH_G     11
+#define CLASSIFIER_SWITCH_H     12
 
 #endif

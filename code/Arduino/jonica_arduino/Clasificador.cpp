@@ -2,14 +2,16 @@
 #include "Clasificador.h"
 
 // -------------------------------------------------- Methods
-Clasificador::Clasificador(int switchPin[]){
-  this->clasifierSwitches = switchPin;
+Clasificador::Clasificador(int switchPin[], int motorPin){
+  this->classifierSwitches = switchPin;
+  this->motorPin = motorPin;
 }
 
 void Clasificador::setUp(){
   for(int i = 0; i < MAX_CONTAINERS; i++){
-    pinMode(this->clasifierSwitches[i], INPUT);
+    pinMode(this->classifierSwitches[i], INPUT);
   }
+  this->servoMotor.attach(this->motorPin);
 }
 
 int* Clasificador::getContainers(){
@@ -18,7 +20,7 @@ int* Clasificador::getContainers(){
 
 void Clasificador::containerState(int n){
   /*DESCRIPTION*/      
-  int reading = digitalRead(this->clasifierSwitches[n]);
+  int reading = digitalRead(this->classifierSwitches[n]);
 
   // If the switch changed, due to noise or pressing:
   if (reading != this->lastSwitchState[n]) {
@@ -94,4 +96,8 @@ void Clasificador::printSwitchState(){
     Serial.print(" ");
   }
   Serial.println("");
+}
+
+void Clasificador::moveClassifier(int angle){
+  this->servoMotor.write(angle);
 }

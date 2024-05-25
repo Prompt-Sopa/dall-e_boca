@@ -3,6 +3,7 @@
 
 // -------------------------------------------------- Includes
 #include <Arduino.h>
+#include <Servo.h>
 
 // -------------------------------------------------- Constantes
 #define DEBOUNCE_DELAY 50
@@ -12,7 +13,9 @@
 // -------------------------------------------------- Class definition
 class Clasificador{
   private: 
-    int *clasifierSwitches;
+    int *classifierSwitches;
+    Servo servoMotor;
+    int motorPin;
 
     int switchState[MAX_CONTAINERS];
     int lastSwitchState[MAX_CONTAINERS] = {0, 0, 0, 0, 0, 0, 0, 0};
@@ -20,7 +23,7 @@ class Clasificador{
 
     int containers[MAX_CONTAINERS] = {0, 0, 0, 0, 0, 0, 0, 0};
   public:
-    Clasificador(int switchPin[]);
+    Clasificador(int switchPin[], int motorPin);
     void setUp();
     int* getContainers();
 
@@ -29,6 +32,8 @@ class Clasificador{
     bool containerDetection();
     void serialCommSendContainers();
     void printSwitchState();
+
+    void moveClassifier(int angle);
 };
 
 #endif
