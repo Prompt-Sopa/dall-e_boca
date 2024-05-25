@@ -6,7 +6,8 @@
 #include <Servo.h>
 
 // -------------------------------------------------- Constantes
-#define FINAL_ANGLE 65
+#define MOTOR_INITIAL_POS 0
+#define MOTOR_FINAL_POS 65
 #define CYCLE_FREQUENCY 15000
 
 // -------------------------------------------------- Class definition

@@ -19,7 +19,7 @@ void ObjectInput::pushNewObject(){
 
   // Move forward
   while(!finished){
-    if(this->servoMotor.read() >= FINAL_ANGLE){
+    if(this->servoMotor.read() >= MOTOR_FINAL_POS){
       finished = true;
     }
     else{
@@ -43,7 +43,7 @@ void ObjectInput::pushNewObject(){
   // Move backwards to origin
   finished = false;
   while(!finished){
-    if(this->servoMotor.read() <= 0){
+    if(this->servoMotor.read() <= MOTOR_INITIAL_POS){
       finished = true;
     }
     else{
