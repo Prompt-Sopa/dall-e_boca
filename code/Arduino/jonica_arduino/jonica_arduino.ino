@@ -3,7 +3,7 @@
 #include "SerialComm.h"
 #include "ObjectInput.h"
 #include "ConveyerBelt.h"
-#include "Clasificador.h"
+#include "Classifier.h"
 #include "Pinout.h"
 
 // -------------------------------------------------- Declaraciones
@@ -13,7 +13,7 @@
 // -------------------------------------------------- Variables Globales
 
 // -------------------------------------------------- Classes
-Clasificador clasificador(CLASIFIER_SWITCHES, SERVO_MOTOR_CLASSIFIER, SERVO_MOTOR_RAMP);
+Classifier classifier(CLASIFIER_SWITCHES, SERVO_MOTOR_CLASSIFIER, SERVO_MOTOR_RAMP);
 ObjectInput objectInput(SERVO_MOTOR_INPUT);
 ConveyerBelt conveyerBelt(CC_MOTOR_CONVEYER_BELT);
 SerialComm serialComm;
@@ -33,7 +33,7 @@ void ledBlink(){
 // -------------------------------------------------- Main
 void setup() {
  
-  clasificador.setUp();
+  classifier.setUp();
   objectInput.setUp();
   conveyerBelt.setUp();
   
@@ -50,8 +50,8 @@ void loop() {
   switch(serialComm.getMode()){
     case RUN:
       conveyerBelt.motonOn();
-      clasificador.moveClassifier(serialComm.getClassifierMotorAngle());
-      clasificador.moveRamp(serialComm.getRampMotorAngle());
+      classifier.moveClassifier(serialComm.getClassifierMotorAngle());
+      classifier.moveRamp(serialComm.getRampMotorAngle());
       objectInput.cycleControl();
       break;
 
@@ -61,12 +61,12 @@ void loop() {
       } 
       break;
 
-    case PREPARE:
+    case SETUP:
       for(int i = 0; i < MAX_CONTAINERS; i++){
-          clasificador.containerState(i);
+          classifier.containerState(i);
         }
-      if(clasificador.containerDetection()){
-        clasificador.serialCommSendContainers();
+      if(classifier.containerDetection()){
+        classifier.serialCommSendContainers();
       } 
       break;
   }

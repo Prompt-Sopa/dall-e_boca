@@ -34,8 +34,8 @@ void SerialComm::printMode(){
     case RUN:
       Serial.println("Mode: RUN");
       break;
-    case PREPARE:
-      Serial.println("Mode: PREPARE");
+    case SETUP:
+      Serial.println("Mode: SETUP");
       break;
     default:
       Serial.println("MODE UNKOWN!");

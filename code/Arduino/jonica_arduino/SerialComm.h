@@ -12,7 +12,7 @@
 enum operationModes{
   STOP = 0,
   RUN,
-  PREPARE, 
+  SETUP, 
 };
 
 // -------------------------------------------------- Class definition

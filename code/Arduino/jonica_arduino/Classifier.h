@@ -1,5 +1,5 @@
-#ifndef CLASIFICADOR_H
-#define CLASIFICADOR_H
+#ifndef CLASSIFIER_H
+#define CLASSIFIER_H
 
 // -------------------------------------------------- Includes
 #include <Arduino.h>
@@ -14,7 +14,7 @@
 #define RAMP_MOTOR_INITIAL_POS 0
 
 // -------------------------------------------------- Class definition
-class Clasificador{
+class Classifier{
   private: 
     int *classifierSwitches;
     Servo servoMotorClassifier, servoMotorRamp;
@@ -27,7 +27,7 @@ class Clasificador{
     int containers[MAX_CONTAINERS] = {0, 0, 0, 0, 0, 0, 0, 0};
   
   public:
-    Clasificador(int switchPin[], int classifierMotorPin, int rampMotorPin);
+    Classifier(int switchPin[], int classifierMotorPin, int rampMotorPin);
     void setUp();
     int* getContainers();
 

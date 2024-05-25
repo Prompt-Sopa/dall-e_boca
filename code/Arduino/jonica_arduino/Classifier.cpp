@@ -1,14 +1,14 @@
 // -------------------------------------------------- Includes
-#include "Clasificador.h"
+#include "Classifier.h"
 
 // -------------------------------------------------- Methods
-Clasificador::Clasificador(int switchPin[], int classifierMotorPin, int rampMotorPin){
+Classifier::Classifier(int switchPin[], int classifierMotorPin, int rampMotorPin){
   this->classifierSwitches = switchPin;
   this->classifierMotorPin = classifierMotorPin;
   this->rampMotorPin = rampMotorPin;
 }
 
-void Clasificador::setUp(){
+void Classifier::setUp(){
   for(int i = 0; i < MAX_CONTAINERS; i++){
     pinMode(this->classifierSwitches[i], INPUT);
   }
@@ -19,11 +19,11 @@ void Clasificador::setUp(){
   this->servoMotorRamp.write(RAMP_MOTOR_INITIAL_POS);
 }
 
-int* Clasificador::getContainers(){
+int* Classifier::getContainers(){
   return this->containers; 
 }
 
-void Clasificador::containerState(int n){
+void Classifier::containerState(int n){
   /* Control del estado del switch con anti-debounce */      
   
   int reading = digitalRead(this->classifierSwitches[n]);
@@ -44,7 +44,7 @@ void Clasificador::containerState(int n){
   this->lastSwitchState[n] = reading;
 }
 
-bool Clasificador::containerDetection(){
+bool Classifier::containerDetection(){
   /* Al detectar un contenedor, espera un cierto tiempo. 
   Todos los switch que se cirren, correspondientes al tamaño del contenedor, en ese tiempo tendrán el mismo ID */
   
@@ -91,7 +91,7 @@ bool Clasificador::containerDetection(){
   return false;
 }
 
-void Clasificador::serialCommSendContainers(){
+void Classifier::serialCommSendContainers(){
   /*DESCRIPTION*/
   for(int i = 0; i < MAX_CONTAINERS; i++){
     Serial.print(this->containers[i]);
@@ -99,7 +99,7 @@ void Clasificador::serialCommSendContainers(){
   }
 }
 
-void Clasificador::printSwitchState(){
+void Classifier::printSwitchState(){
   /*DESCRIPTION*/
   for(int i = 0; i < MAX_CONTAINERS; i++){
     Serial.print(this->switchState[i]);
@@ -108,14 +108,14 @@ void Clasificador::printSwitchState(){
   Serial.println();
 }
 
-void Clasificador::moveClassifier(int angle){
+void Classifier::moveClassifier(int angle){
   // DEBUG
   // Serial.print("Move classifier. Angle: ");
   // Serial.println(angle);
   this->servoMotorClassifier.write(angle);
 }
 
-void Clasificador::moveRamp(int angle){
+void Classifier::moveRamp(int angle){
   // DEBUG
   // Serial.print("Move ramp. Angle: ");
   // Serial.println(angle);
