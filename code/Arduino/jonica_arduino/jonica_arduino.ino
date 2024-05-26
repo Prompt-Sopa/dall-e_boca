@@ -58,6 +58,7 @@ void loop() {
     case STOP: 
       if(objectInput.cycleFinished()){
         conveyerBelt.motorOff();
+        Serial.println("cycle_finished");
       } 
       break;
 
