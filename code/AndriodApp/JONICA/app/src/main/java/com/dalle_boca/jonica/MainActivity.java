@@ -1,11 +1,8 @@
 package com.dalle_boca.jonica;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowInsets;
-import android.view.WindowInsetsController;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -15,10 +12,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
@@ -75,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         if (item.getItemId() == R.id.nav_settings) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SettingsFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new SetupFragment()).commit();
         }
 
         if (item.getItemId() == R.id.nav_statistics) {

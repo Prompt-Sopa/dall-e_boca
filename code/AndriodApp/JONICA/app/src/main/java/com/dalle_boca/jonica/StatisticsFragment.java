@@ -64,7 +64,7 @@ public class StatisticsFragment extends Fragment implements MqttMessageListener 
         barChart.setData(barData);
 
         // adding color to our bar data set.
-        barDataSet.setColors(ColorTemplate.MATERIAL_COLORS);
+        barDataSet.setColors(ColorTemplate.PASTEL_COLORS);
 
         // setting text color.
         barDataSet.setValueTextColor(Color.BLACK);

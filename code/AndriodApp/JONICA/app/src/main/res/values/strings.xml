@@ -7,4 +7,5 @@
     <string name="play_button_desc">Play button</string>
     <string name="pause_button_desc">Pause Button</string>
     <string name="stop_button_desc">Stop Button</string>
+    <string name="stop">STOP</string>
 </resources>

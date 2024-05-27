@@ -29,15 +29,4 @@
             android:title="About"
             tools:ignore="HardcodedText" />
     </group>
-
-    <item android:title="">
-        <menu>
-            <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/nav_logout"
-                android:title="Logout"
-                tools:ignore="HardcodedText" />
-        </menu>
-    </item>
-
 </menu>
