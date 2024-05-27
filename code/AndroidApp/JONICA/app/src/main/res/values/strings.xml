@@ -8,4 +8,6 @@
     <string name="pause_button_desc">Pause Button</string>
     <string name="stop_button_desc">Stop Button</string>
     <string name="stop">STOP</string>
+    <string name="reset">RESET</string>
+    <string name="run">RUN</string>
 </resources>

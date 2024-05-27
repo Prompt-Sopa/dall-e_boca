@@ -79,9 +79,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new AboutFragment()).commit();
         }
 
-        if (item.getItemId() == R.id.nav_logout) {
-            Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
-        }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

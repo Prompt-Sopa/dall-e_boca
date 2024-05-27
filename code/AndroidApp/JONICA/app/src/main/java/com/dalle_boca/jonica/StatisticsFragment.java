@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.Button;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -24,6 +25,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 import java.util.ArrayList;
 public class StatisticsFragment extends Fragment implements MqttMessageListener {
+    Button buttonReset;
     // variable for our bar chart
     BarChart barChart;
     // variable for our bar data.
@@ -44,6 +46,8 @@ public class StatisticsFragment extends Fragment implements MqttMessageListener 
 
 //        mqttManager = new MqttManager();
 //        mqttManager.addMessageListener((MqttMessageListener) this);
+
+        buttonReset = rootView.findViewById(R.id.button_reset);
 
         // initializing variable for bar chart.
         barChart = rootView.findViewById(R.id.idBarChart);
@@ -89,6 +93,15 @@ public class StatisticsFragment extends Fragment implements MqttMessageListener 
 //        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_GREEN_TOPIC);
 //        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_RED_TOPIC);
 //        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_GREEN_TOPIC);
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+//                mqttManager.publishMessage(MQTT_OBJECT_CUBE_RED_TOPIC, "0");
+//                mqttManager.publishMessage(MQTT_OBJECT_CUBE_GREEN_TOPIC, "0");
+//                mqttManager.publishMessage(MQTT_OBJECT_SPHERE_RED_TOPIC, "0");
+//                mqttManager.publishMessage(MQTT_OBJECT_SPHERE_GREEN_TOPIC, "0");
+            }
+        });
 
         return rootView;
     }
