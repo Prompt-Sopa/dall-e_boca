@@ -50,6 +50,7 @@ void loop() {
   switch(serialComm.getMode()){
     case RUN:
       conveyerBelt.motonOn();
+      // TODO: Sería mejor mover los motores solamente si cambió el ángulo
       classifier.moveClassifier(serialComm.getClassifierMotorAngle());
       classifier.moveRamp(serialComm.getRampMotorAngle());
       objectInput.cycleControl();
@@ -62,13 +63,13 @@ void loop() {
       } 
       break;
 
-    case SETUP:
-      for(int i = 0; i < MAX_CONTAINERS; i++){
-          classifier.containerState(i);
-        }
-      if(classifier.containerDetection()){
-        classifier.serialCommSendContainers();
-      } 
-      break;
+    // case SETUP:
+    //   for(int i = 0; i < MAX_CONTAINERS; i++){
+    //       classifier.containerState(i);
+    //     }
+    //   if(classifier.containerDetection()){
+    //     classifier.serialCommSendContainers();
+    //   } 
+    //   break;
   }
 }
