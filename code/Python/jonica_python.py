@@ -2,6 +2,9 @@
 import serial
 import time
 from enum import Enum
+from flask import Flask, render_template, Response
+import cv2
+import threading
 
 ### -------------------------------------------------------------------------------- MQTT comm config
 mqtt_config_dict = {
@@ -46,6 +49,7 @@ class Modes(Enum):
     RUN = 1
     SETUP = 2
 
+global_mode = Modes.STOP.value
 global_cycle_finished = True
 
 ### -------------------------------------------------------------------------------- Global variables
@@ -88,6 +92,11 @@ global_classifier_motor_angles = {
     },
 }
 
+### -------------------------------------------------------------------------------- Live video config
+app = Flask(__name__)
+
+camera = cv2.VideoCapture(0) # Cambiar por el correspondiente
+
 ### -------------------------------------------------------------------------------- MQTT functions
 def mqtt_connect():
     def on_connect(client, userdata, flags, rc):
@@ -128,14 +137,15 @@ def mqtt_subscribe(client):
 
 def handle_mode_topic(msg):
     global global_cycle_finished
+    global global_mode
 
-    mode = int(msg.payload.decode())
-    send_serial_msg(arduino, MODE_PREFIX, str(mode))
-    if mode == Modes.RUN.value:
+    global_mode = int(msg.payload.decode())
+    send_serial_msg(arduino, MODE_PREFIX, str(global_mode))
+    if global_mode == Modes.RUN.value:
         global_cycle_finished = False
     
     # DEBUG
-    print(f"Mode: `{mode}`")
+    print(f"Mode: `{global_mode}`")
 
 def handle_reset_topic(msg):
     for object_ in global_objects_qty:
@@ -181,10 +191,37 @@ def receive_cycle_finished(serial_conn):
         return True
     return False   
 
+### -------------------------------------------------------------------------------- Live video
+def gen_frames():  
+    while True:
+        success, frame = camera.read()  # read the camera frame
+        if not success:
+            break
+        else:
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                   b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+def run_flask_app():
+    app.run(host="192.168.1.5", port=5000)
+
 ### -------------------------------------------------------------------------------- Main
 if __name__ == '__main__':    
     # Inicializaciones
     # client = mqtt_run() # Mqtt config
+    
+    flask_thread = threading.Thread(target=run_flask_app)
+    flask_thread.daemon = True  # Permite que el thread se cierre al terminar el programa principal
+    flask_thread.start()
 
     # Loop principal
     while True:
@@ -193,12 +230,12 @@ if __name__ == '__main__':
         # Si está en RUN, mandar las posiciones de los motores
         # Se debe verificar el modo para ver que mover o que no
         # Contar las piezas, ir incrementando de a uno. La variables es global_objects_qty
-        if mode == Modes.RUN.value or (mode == Modes.STOP.value and global_cycle_finished == False): 
+        if global_mode == Modes.RUN.value or (global_mode == Modes.STOP.value and global_cycle_finished == False): 
             # código de ML. Cuando detecta algo, mover los motores según corresponda.
             # El ángulo dependerá del modo del clasificador
             None
         
         # Espero a que finalice el ciclo de la cinta y no hago nada
-        if mode == Modes.STOP.value:
+        if global_mode == Modes.STOP.value:
             if global_cycle_finished == False:
                 global_cycle_finished = receive_cycle_finished(arduino)
