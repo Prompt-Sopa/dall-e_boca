@@ -14,7 +14,7 @@
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/nav_settings"
-            android:title="Settings"
+            android:title="Setup"
             tools:ignore="HardcodedText" />
 
         <item

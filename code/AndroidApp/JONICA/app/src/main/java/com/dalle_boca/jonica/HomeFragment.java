@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 buttonViewModel.activateRun();
-                mqttManager.publishMessage(MQTT_MODE_TOPIC, "run");
+                mqttManager.publishMessage(MQTT_MODE_TOPIC, "1");
             }
         });
 
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 buttonViewModel.activateStop();
-                mqttManager.publishMessage(MQTT_MODE_TOPIC, "stop");
+                mqttManager.publishMessage(MQTT_MODE_TOPIC, "0");
             }
         });
     }
