@@ -7,9 +7,10 @@ ObjectInput::ObjectInput(int motorPin){
 
 void ObjectInput::setUp(){
   this->servoMotor.attach(this->motorPin);
-  servoMotor.write(0);
+  servoMotor.write(MOTOR_INITIAL_POS);
 }
 
+// Empieza adelante y busca el objeto atrás
 void ObjectInput::pushNewObject(){
   // TODO: Sería mejor hacerlo con interrupciones o algo así, porque tilda todo
   int angle = 0;
@@ -19,13 +20,13 @@ void ObjectInput::pushNewObject(){
 
   // Move forward
   while(!finished){
-    if(this->servoMotor.read() >= MOTOR_FINAL_POS){
+    if(this->servoMotor.read() <= MOTOR_FINAL_POS){
       finished = true;
     }
     else{
       if(millis() - prevMillis > movDelay){
         prevMillis = millis();
-        angle++;
+        angle--;
         this->servoMotor.write(angle);
       }
     }
@@ -43,13 +44,13 @@ void ObjectInput::pushNewObject(){
   // Move backwards to origin
   finished = false;
   while(!finished){
-    if(this->servoMotor.read() <= MOTOR_INITIAL_POS){
+    if(this->servoMotor.read() >= MOTOR_INITIAL_POS){
       finished = true;
     }
     else{
       if(millis() - prevMillis > movDelay){
         prevMillis = millis();
-        angle--;
+        angle++;
         this->servoMotor.write(angle);
       }
     }

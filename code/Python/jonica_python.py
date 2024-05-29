@@ -33,7 +33,7 @@ serial_config_dict = {
     "baud_rate": 9600,
     "port": 'COM3',
 }
-# arduino = serial.Serial(serial_config_dict["port"], serial_config_dict["baud_rate"]) # Serial config
+arduino = serial.Serial(serial_config_dict["port"], serial_config_dict["baud_rate"]) # Serial config
 
 CLASSIFIER_SERVO_MOTOR_PREFIX = "smclass"
 RAMP_SERVO_MOTOR_PREFIX = "smramp"
@@ -41,7 +41,7 @@ MODE_PREFIX = "mode"
 CLASSIFICATION_CYCLE_FINISHED = "cycle_finished"
 
 RAMP_SERVO_MOTOR_CLOSE_ANGLE = 0
-RAMP_SERVO_MOTOR_OPEN_ANGLE = 180
+RAMP_SERVO_MOTOR_OPEN_ANGLE = 90
 CLASSIFIER_SERVO_MOTOR_INITIAL_ANGLE = 0
 
 class Modes(Enum):
@@ -70,24 +70,24 @@ global_classifier_mode = 1
 
 global_classifier_motor_angles = {
     "1": {
-        "cube_green": 22.5, # Harcodearlooooos
-        "cube_red": 22.5*2,
-        "sphere_green": 22.5*3,
+        "cube_green": 20, # Harcodearlooooos
+        "cube_red": 60,
+        "sphere_green": 100,
     },
     "2": {
-        "cube_green": 22.5, # Harcodearlooooos
-        "cube_red": 22.5*2,
-        "sphere_green": 22.5*3,
+        "cube_green": 0, # Harcodearlooooos
+        "cube_red": 80,
+        "sphere_green": 160,
     },
     "3": {
-        "cube_green": 22.5, # Harcodearlooooos
-        "cube_red": 22.5*2,
-        "sphere_green": 22.5*3,
+        "cube_green": 0, # Harcodearlooooos
+        "cube_red": 80,
+        "sphere_green": 0,
     },
     "4": {
-        "cube_green": 22.5, # Harcodearlooooos
-        "cube_red": 22.5*2,
-        "sphere_green": 22.5*3,
+        "cube_green": 0, # Harcodearlooooos
+        "cube_red": 0,
+        "sphere_green": 80,
     },
 }
 
@@ -122,7 +122,7 @@ def mqtt_run():
 def mqtt_subscribe(client):
     def on_message(client, userdata, msg):
         # DEBUG
-        print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
+        # print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         topic_handlers = {
             subscription_topics[0]: handle_mode_topic,
             subscription_topics[1]: handle_classifier_mode_topic,
@@ -145,17 +145,17 @@ def handle_mode_topic(msg):
         global_cycle_finished = False
     
     # DEBUG
-    print(f"Mode: `{global_mode}`")
+    # print(f"Mode: `{global_mode}`")
 
 def handle_reset_topic(msg):
     for object_ in global_objects_qty:
         global_objects_qty[object_] = 0
         # DEBUG
-        print("Reset `{object_}` to `{global_objects_qty[object_]}`")
+        # print("Reset `{object_}` to `{global_objects_qty[object_]}`")
 
 def handle_classifier_mode_topic(msg):
     global_classifier_mode = int(msg.payload.decode())
-    print("Classification mode `{global_classifier_mode}`")
+    # print("Classification mode `{global_classifier_mode}`")
 
 
 def handle_default(msg):
