@@ -1,4 +1,5 @@
 ### Estructura genérica del programa
+import os
 import serial
 import time
 import argparse
@@ -37,16 +38,16 @@ serial_config_dict = {
     "baud_rate": 9600,
     "port": 'COM3',
 }
-arduino = serial.Serial(serial_config_dict["port"], serial_config_dict["baud_rate"]) # Serial config
+# arduino = serial.Serial(serial_config_dict["port"], serial_config_dict["baud_rate"]) # Serial config
 
 CLASSIFIER_SERVO_MOTOR_PREFIX = "smclass"
 RAMP_SERVO_MOTOR_PREFIX = "smramp"
 MODE_PREFIX = "mode"
 CLASSIFICATION_CYCLE_FINISHED = "cycle_finished"
 
-RAMP_SERVO_MOTOR_CLOSE_ANGLE = 0
-RAMP_SERVO_MOTOR_OPEN_ANGLE = 90
-CLASSIFIER_SERVO_MOTOR_INITIAL_ANGLE = 0
+RAMP_SERVO_MOTOR_CLOSE_ANGLE = '0'
+RAMP_SERVO_MOTOR_OPEN_ANGLE = '90'
+CLASSIFIER_SERVO_MOTOR_INITIAL_ANGLE = '0'
 
 class Modes(Enum):
     STOP = 0
@@ -74,31 +75,31 @@ global_classifier_mode = 1
 
 global_classifier_motor_angles = {
     "1": {
-        "cube_green": 20, # Harcodearlooooos
-        "cube_red": 60,
-        "sphere_green": 100,
+        "cube_green": "20", # Harcodearlooooos
+        "cube_red": "60",
+        "sphere_green": "100",
     },
     "2": {
-        "cube_green": 0, # Harcodearlooooos
-        "cube_red": 80,
-        "sphere_green": 160,
+        "cube_green": "0", # Harcodearlooooos
+        "cube_red": "80",
+        "sphere_green": "160",
     },
     "3": {
-        "cube_green": 0, # Harcodearlooooos
-        "cube_red": 80,
-        "sphere_green": 0,
+        "cube_green": "0", # Harcodearlooooos
+        "cube_red": "80",
+        "sphere_green": "0",
     },
     "4": {
-        "cube_green": 0, # Harcodearlooooos
-        "cube_red": 0,
-        "sphere_green": 80,
+        "cube_green": "0", # Harcodearlooooos
+        "cube_red": "0",
+        "sphere_green": "80",
     },
 }
 
 ### -------------------------------------------------------------------------------- Live video config
 app = Flask(__name__)
 
-camera = cv2.VideoCapture(0) # Cambiar por el correspondiente
+# camera = cv2.VideoCapture(0) # Cambiar por el correspondiente
 
 ### -------------------------------------------------------------------------------- MQTT functions
 def mqtt_connect():
@@ -175,20 +176,6 @@ def send_serial_msg(serial_conn, prefix, msg):
     # DEBUG
     print("PYTHON: Mensaje enviado:", serial_message.strip())
 
-# TODO: Actualizar por fuera el container_num
-def receive_classifier_containers_id(serial_conn, container_list, container_num):
-    serial_message = serial_conn.readline().decode().strip()  # Lee una línea completa del puerto serie y la decodifica a una cadena
-    if serial_message:  
-        container_id = int(serial_message)  # Convierte la cadena a un número entero
-        container_list[container_num] = container_id  # Agrega el número a la lista
-        
-        # DEBUG
-        print("Número recibido:", container_id)
-        print("Lista actualizada:", container_list)
-
-        return True
-    return False
-
 def receive_cycle_finished(serial_conn):
     serial_message = serial_conn.readline().decode().strip()  # Lee una línea completa del puerto serie y la decodifica a una cadena
     if serial_message == CLASSIFICATION_CYCLE_FINISHED:
@@ -264,7 +251,7 @@ class VideoStream:
 ### -------------------------------------------------------------------------------- Main
 if __name__ == '__main__':    
     # Inicializaciones
-    client = mqtt_run() # Mqtt config
+    # client = mqtt_run() # Mqtt config
     
     # flask_thread = Thread(target=run_flask_app)
     # flask_thread.daemon = True  # Permite que el thread se cierre al terminar el programa principal
@@ -447,6 +434,15 @@ if __name__ == '__main__':
         # Se debe verificar el modo para ver que mover o que no
         # Contar las piezas, ir incrementando de a uno. La variables es global_objects_qty
         if global_mode == Modes.RUN.value or (global_mode == Modes.STOP.value and global_cycle_finished == False): 
+            if object_identified_name == "sphere_red":
+                # send_serial_msg(arduino, RAMP_SERVO_MOTOR_PREFIX, RAMP_SERVO_MOTOR_OPEN_ANGLE)
+                print(RAMP_SERVO_MOTOR_PREFIX + RAMP_SERVO_MOTOR_OPEN_ANGLE)
+            else:
+                # send_serial_msg(arduino, RAMP_SERVO_MOTOR_PREFIX, RAMP_SERVO_MOTOR_CLOSE_ANGLE)
+                print(RAMP_SERVO_MOTOR_PREFIX + RAMP_SERVO_MOTOR_CLOSE_ANGLE)
+                # send_serial_msg(arduino, CLASSIFIER_SERVO_MOTOR_PREFIX, global_classifier_motor_angles[global_classifier_mode][object_identified_name])
+                print(CLASSIFIER_SERVO_MOTOR_PREFIX + global_classifier_motor_angles[global_classifier_mode][object_identified_name])
+
             # código de ML. Cuando detecta algo, mover los motores según corresponda.
             # El ángulo dependerá del modo del clasificador
             None
