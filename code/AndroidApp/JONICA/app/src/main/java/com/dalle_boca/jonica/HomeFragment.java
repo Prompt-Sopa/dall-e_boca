@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadUrl("http://192.168.1.5:5000");
 
-//        mqttManager = new MqttManager();
+        mqttManager = new MqttManager();
 
         buttonViewModel = new ViewModelProvider(requireActivity()).get(ButtonViewModel.class);
 
@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 buttonViewModel.activateRun();
-//                mqttManager.publishMessage(MQTT_MODE_TOPIC, "run");
+                mqttManager.publishMessage(MQTT_MODE_TOPIC, "run");
             }
         });
 
@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 buttonViewModel.activateStop();
-//                mqttManager.publishMessage(MQTT_MODE_TOPIC, "stop");
+                mqttManager.publishMessage(MQTT_MODE_TOPIC, "stop");
             }
         });
     }

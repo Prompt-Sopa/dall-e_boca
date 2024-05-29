@@ -2,6 +2,7 @@ package com.dalle_boca.jonica;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ import com.dalle_boca.jonica.viewmodel.OptionViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetupFragment extends Fragment implements OptionAdapter.OptionClickListener {
+public class SetupFragment extends Fragment {
 
     private OptionViewModel optionViewModel;
     private RecyclerView recyclerView;
@@ -36,7 +37,7 @@ public class SetupFragment extends Fragment implements OptionAdapter.OptionClick
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-//        mqttManager = new MqttManager();
+        mqttManager = new MqttManager();
 
         recyclerView = view.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -53,6 +54,7 @@ public class SetupFragment extends Fragment implements OptionAdapter.OptionClick
             @Override
             public void onOptionClick(int position) {
                 optionViewModel.selectOption(position);
+                mqttManager.publishMessage(MQTT_SETUP_TOPIC, String.valueOf(position));
             }
         }, optionViewModel.getSelectedOption());
 
@@ -67,8 +69,9 @@ public class SetupFragment extends Fragment implements OptionAdapter.OptionClick
         });
     }
 
-    @Override
-    public void onOptionClick(int position) {
+//    @Override
+//    public void onOptionClick(int position) {
+//        Log.d("MQTT", "MQTT Publish");
 //        mqttManager.publishMessage(MQTT_SETUP_TOPIC, String.valueOf(position));
-    }
+//    }
 }

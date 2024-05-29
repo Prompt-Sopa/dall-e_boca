@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class MqttManager {
     private static final String TAG = "MqttManager";
-    private static final String MQTT_BROKER = "tcp://192.168.100.29:1883";
+    private static final String MQTT_BROKER = "tcp://192.168.100.28:1883";
     private static final String MQTT_CLIENT_ID = "AndroidClient";
 
     private MqttClient mqttClient;

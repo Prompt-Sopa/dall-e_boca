@@ -39,13 +39,14 @@ public class StatisticsFragment extends Fragment implements MqttMessageListener 
     private static final String MQTT_OBJECT_CUBE_GREEN_TOPIC = "/object/cube/green";
     private static final String MQTT_OBJECT_SPHERE_RED_TOPIC = "/object/sphere/red";
     private static final String MQTT_OBJECT_SPHERE_GREEN_TOPIC = "/object/sphere/green";
+    private static final String MQTT_OBJECT_RESET = "/object/reset";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_statistics, container, false);
 
-//        mqttManager = new MqttManager();
-//        mqttManager.addMessageListener((MqttMessageListener) this);
+        mqttManager = new MqttManager();
+        mqttManager.addMessageListener((MqttMessageListener) this);
 
         buttonReset = rootView.findViewById(R.id.button_reset);
 
@@ -89,17 +90,18 @@ public class StatisticsFragment extends Fragment implements MqttMessageListener 
 
         barChart.getAxisRight().setEnabled(false); // Deshabilitar eje derecho si no es necesario
 
-//        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_RED_TOPIC);
-//        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_GREEN_TOPIC);
-//        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_RED_TOPIC);
-//        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_GREEN_TOPIC);
+        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_RED_TOPIC);
+        mqttManager.subscribeToTopic(MQTT_OBJECT_CUBE_GREEN_TOPIC);
+        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_RED_TOPIC);
+        mqttManager.subscribeToTopic(MQTT_OBJECT_SPHERE_GREEN_TOPIC);
         buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-//                mqttManager.publishMessage(MQTT_OBJECT_CUBE_RED_TOPIC, "0");
-//                mqttManager.publishMessage(MQTT_OBJECT_CUBE_GREEN_TOPIC, "0");
-//                mqttManager.publishMessage(MQTT_OBJECT_SPHERE_RED_TOPIC, "0");
-//                mqttManager.publishMessage(MQTT_OBJECT_SPHERE_GREEN_TOPIC, "0");
+                mqttManager.publishMessage(MQTT_OBJECT_CUBE_RED_TOPIC, "0");
+                mqttManager.publishMessage(MQTT_OBJECT_CUBE_GREEN_TOPIC, "0");
+                mqttManager.publishMessage(MQTT_OBJECT_SPHERE_RED_TOPIC, "0");
+                mqttManager.publishMessage(MQTT_OBJECT_SPHERE_GREEN_TOPIC, "0");
+                mqttManager.publishMessage(MQTT_OBJECT_RESET, "True");
             }
         });
 
@@ -108,27 +110,27 @@ public class StatisticsFragment extends Fragment implements MqttMessageListener 
 
     @Override
     public void onMessageReceived(String topic, MqttMessage message) {
-//        // Manejar el mensaje MQTT recibido
-//        if (topic.equals(MQTT_OBJECT_CUBE_RED_TOPIC)) {
-//            // Actualizar el valor de la barra correspondiente al motor 1
-//            float newValue = Float.parseFloat(message.toString());
-//            updateBarEntry(0, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
-//        }
-//        if (topic.equals(MQTT_OBJECT_CUBE_GREEN_TOPIC)) {
-//            // Actualizar el valor de la barra correspondiente al motor 1
-//            float newValue = Float.parseFloat(message.toString());
-//            updateBarEntry(1, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
-//        }
-//        if (topic.equals(MQTT_OBJECT_SPHERE_RED_TOPIC)) {
-//            // Actualizar el valor de la barra correspondiente al motor 1
-//            float newValue = Float.parseFloat(message.toString());
-//            updateBarEntry(2, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
-//        }
-//        if (topic.equals(MQTT_OBJECT_SPHERE_GREEN_TOPIC)) {
-//            // Actualizar el valor de la barra correspondiente al motor 1
-//            float newValue = Float.parseFloat(message.toString());
-//            updateBarEntry(3, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
-//        }
+        // Manejar el mensaje MQTT recibido
+        if (topic.equals(MQTT_OBJECT_CUBE_RED_TOPIC)) {
+            // Actualizar el valor de la barra correspondiente al motor 1
+            float newValue = Float.parseFloat(message.toString());
+            updateBarEntry(0, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
+        }
+        if (topic.equals(MQTT_OBJECT_CUBE_GREEN_TOPIC)) {
+            // Actualizar el valor de la barra correspondiente al motor 1
+            float newValue = Float.parseFloat(message.toString());
+            updateBarEntry(1, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
+        }
+        if (topic.equals(MQTT_OBJECT_SPHERE_RED_TOPIC)) {
+            // Actualizar el valor de la barra correspondiente al motor 1
+            float newValue = Float.parseFloat(message.toString());
+            updateBarEntry(2, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
+        }
+        if (topic.equals(MQTT_OBJECT_SPHERE_GREEN_TOPIC)) {
+            // Actualizar el valor de la barra correspondiente al motor 1
+            float newValue = Float.parseFloat(message.toString());
+            updateBarEntry(3, newValue); // Suponiendo que el valor del motor 1 está en la primera posición de barEntriesArrayList
+        }
     }
 
     private void updateBarEntry(int index, float newValue) {
