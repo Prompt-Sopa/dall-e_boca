@@ -1,12 +1,12 @@
 from paho.mqtt import client as mqtt_client
 
-broker = 'broker.emqx.io' # IP addr
+broker = '192.168.100.28' # IP addr
 port = 1883 # Port, generalmente 1883
 client_id = "RaspberryPiClient"
 
-topic = "python/mqtt"
+topic = "/mode"
 
-def connect_mqtt():
+def mqtt_connect():
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
             print("Connected to MQTT Broker!")

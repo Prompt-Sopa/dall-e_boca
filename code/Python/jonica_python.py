@@ -5,18 +5,19 @@ from enum import Enum
 from flask import Flask, render_template, Response
 import cv2
 import threading
+from paho.mqtt import client as mqtt_client
 
 ### -------------------------------------------------------------------------------- MQTT comm config
 mqtt_config_dict = {
-    "broker": 'broker.emqx.io', # IP addr
+    "broker": '192.168.100.28', # IP addr
     "port": 1883, # Port, generalmente 1883
     "client_id": "RaspberryPiClient",
 }
 
 subscription_topics = [
     "/mode",
-    # Classifier container setup
-    # Reset
+    "/setup",
+    "/object/reset",
 ]
 
 publishing_topics = {
@@ -32,7 +33,6 @@ serial_config_dict = {
     "baud_rate": 9600,
     "port": 'COM3',
 }
-print("Serial port: {} - Serial BD: {}".format(serial_config_dict["port"], serial_config_dict["baud_rate"]))
 # arduino = serial.Serial(serial_config_dict["port"], serial_config_dict["baud_rate"]) # Serial config
 
 CLASSIFIER_SERVO_MOTOR_PREFIX = "smclass"
@@ -47,7 +47,6 @@ CLASSIFIER_SERVO_MOTOR_INITIAL_ANGLE = 0
 class Modes(Enum):
     STOP = 0
     RUN = 1
-    SETUP = 2
 
 global_mode = Modes.STOP.value
 global_cycle_finished = True
@@ -116,7 +115,7 @@ def mqtt_connect():
 
 def mqtt_run():
     client = mqtt_connect()
-    subscribe(client)
+    mqtt_subscribe(client)
     client.loop_start()
     return client
 
@@ -126,7 +125,8 @@ def mqtt_subscribe(client):
         print(f"Received `{msg.payload.decode()}` from `{msg.topic}` topic")
         topic_handlers = {
             subscription_topics[0]: handle_mode_topic,
-            subscription_topics[0]: handle_classifier_container_topic,
+            subscription_topics[1]: handle_classifier_mode_topic,
+            subscription_topics[2]: handle_reset_topic,
         }
         handler = topic_handlers.get(msg.topic, handle_default)
         handler(msg)
@@ -217,11 +217,11 @@ def run_flask_app():
 ### -------------------------------------------------------------------------------- Main
 if __name__ == '__main__':    
     # Inicializaciones
-    # client = mqtt_run() # Mqtt config
+    client = mqtt_run() # Mqtt config
     
-    flask_thread = threading.Thread(target=run_flask_app)
-    flask_thread.daemon = True  # Permite que el thread se cierre al terminar el programa principal
-    flask_thread.start()
+    # flask_thread = threading.Thread(target=run_flask_app)
+    # flask_thread.daemon = True  # Permite que el thread se cierre al terminar el programa principal
+    # flask_thread.start()
 
     # Loop principal
     while True:
