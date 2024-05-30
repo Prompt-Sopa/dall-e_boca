@@ -45,6 +45,7 @@ void setup() {
 
 void loop() {
 
+  bool cycleFinishedSent = true;
   serialComm.serialCommunicationRead();
 
   switch(serialComm.getMode()){
@@ -54,12 +55,14 @@ void loop() {
       classifier.moveClassifier(serialComm.getClassifierMotorAngle());
       classifier.moveRamp(serialComm.getRampMotorAngle());
       objectInput.cycleControl();
+      cycleFinishedSent = false;
       break;
 
     case STOP: 
-      if(objectInput.cycleFinished()){
+      if(objectInput.cycleFinished() && !cycleFinishedSent){
         conveyerBelt.motorOff();
         Serial.println("cycle_finished");
+        cycleFinishedSent = true;
       } 
       break;
 
