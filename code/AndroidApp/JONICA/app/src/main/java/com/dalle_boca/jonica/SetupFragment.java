@@ -54,7 +54,7 @@ public class SetupFragment extends Fragment {
             @Override
             public void onOptionClick(int position) {
                 optionViewModel.selectOption(position);
-                mqttManager.publishMessage(MQTT_SETUP_TOPIC, String.valueOf(position));
+                mqttManager.publishMessage(MQTT_SETUP_TOPIC, String.valueOf(position + 1));
             }
         }, optionViewModel.getSelectedOption());
 
