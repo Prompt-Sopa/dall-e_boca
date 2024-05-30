@@ -18,7 +18,7 @@ enum operationModes{
 // -------------------------------------------------- Class definition
 class SerialComm{
   private:
-    int mode = STOP;
+    int mode = RUN;
     int classifierMotorAngle, rampMotorAngle;
 
   public:

@@ -71,7 +71,7 @@ class ClassifierModes(Enum):
     COLOR_DOUBLE_CONTAINER = 3
     SHAPE_DOUBLE_CONTAINER = 4
 
-global_classifier_mode = 1
+global_classifier_mode = '1'
 
 global_classifier_motor_angles = {
     "1": {
@@ -159,7 +159,7 @@ def handle_reset_topic(msg):
         # print("Reset `{object_}` to `{global_objects_qty[object_]}`")
 
 def handle_classifier_mode_topic(msg):
-    global_classifier_mode = int(msg.payload.decode())
+    global_classifier_mode = msg.payload.decode()
     # print("Classification mode `{global_classifier_mode}`")
 
 
@@ -439,6 +439,7 @@ if __name__ == '__main__':
                 print(RAMP_SERVO_MOTOR_PREFIX + RAMP_SERVO_MOTOR_OPEN_ANGLE)
             else:
                 # send_serial_msg(arduino, RAMP_SERVO_MOTOR_PREFIX, RAMP_SERVO_MOTOR_CLOSE_ANGLE)
+                sleep(10)
                 print(RAMP_SERVO_MOTOR_PREFIX + RAMP_SERVO_MOTOR_CLOSE_ANGLE)
                 # send_serial_msg(arduino, CLASSIFIER_SERVO_MOTOR_PREFIX, global_classifier_motor_angles[global_classifier_mode][object_identified_name])
                 print(CLASSIFIER_SERVO_MOTOR_PREFIX + global_classifier_motor_angles[global_classifier_mode][object_identified_name])

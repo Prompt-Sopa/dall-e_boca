@@ -8,7 +8,7 @@
 // -------------------------------------------------- Constantes
 #define MOTOR_INITIAL_POS 65
 #define MOTOR_FINAL_POS 0
-#define CYCLE_FREQUENCY 15000
+#define CYCLE_FREQUENCY 5000
 
 // -------------------------------------------------- Class definition
 class ObjectInput{

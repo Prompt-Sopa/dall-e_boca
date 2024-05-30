@@ -16,7 +16,7 @@ void ObjectInput::pushNewObject(){
   int angle = 0;
   bool finished = false;
   long prevMillis = millis();
-  const int movDelay = 15, fallDelay = 500;
+  const int movDelay = 10, fallDelay = 250;
 
   // Move forward
   while(!finished){
