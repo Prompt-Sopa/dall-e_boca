@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
         WebView webView = view.findViewById(R.id.camera_feed);
         webView.setWebViewClient(new WebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl("http://192.168.1.5:5000");
+        webView.loadUrl("http://192.168.100.28:5000");
 
         mqttManager = new MqttManager();
 
