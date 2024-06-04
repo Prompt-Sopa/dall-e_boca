@@ -1,24 +1,32 @@
 // -------------------------------------------------- Includes
-#include "Clasificador.h"
+#include "Classifier.h"
 
 // -------------------------------------------------- Methods
-Clasificador::Clasificador(int switchPin[]){
-  this->clasifierSwitches = switchPin;
+Classifier::Classifier(int switchPin[], int classifierMotorPin, int rampMotorPin){
+  this->classifierSwitches = switchPin;
+  this->classifierMotorPin = classifierMotorPin;
+  this->rampMotorPin = rampMotorPin;
 }
 
-void Clasificador::setUp(){
+void Classifier::setUp(){
   for(int i = 0; i < MAX_CONTAINERS; i++){
-    pinMode(this->clasifierSwitches[i], INPUT);
+    pinMode(this->classifierSwitches[i], INPUT);
   }
+  this->servoMotorClassifier.attach(this->classifierMotorPin);
+  this->servoMotorRamp.attach(this->rampMotorPin);
+
+  this->servoMotorClassifier.write(CLASSIFIER_MOTOR_INITIAL_POS);
+  this->servoMotorRamp.write(RAMP_MOTOR_INITIAL_POS);
 }
 
-int* Clasificador::getContainers(){
+int* Classifier::getContainers(){
   return this->containers; 
 }
 
-void Clasificador::containerState(int n){
-  /*DESCRIPTION*/      
-  int reading = digitalRead(this->clasifierSwitches[n]);
+void Classifier::containerState(int n){
+  /* Control del estado del switch con anti-debounce */      
+  
+  int reading = digitalRead(this->classifierSwitches[n]);
 
   // If the switch changed, due to noise or pressing:
   if (reading != this->lastSwitchState[n]) {
@@ -36,14 +44,14 @@ void Clasificador::containerState(int n){
   this->lastSwitchState[n] = reading;
 }
 
-bool Clasificador::containerDetection(){
-  /*DESCRIPTION*/
-  // TODO: Faltaría una especie de reset para el containerNumber
-  // Sino se puede usar siempre el siguiente valor al más alto, aunque es más trabajo al pedo
+bool Classifier::containerDetection(){
+  /* Al detectar un contenedor, espera un cierto tiempo. 
+  Todos los switch que se cirren, correspondientes al tamaño del contenedor, en ese tiempo tendrán el mismo ID */
+  
   static long lastContainerDetectionTime;
   static bool containerDetected = false;
   static int containerNumber = 1; 
-  bool newContainer = false;
+  bool newContainer = false, removedContainer = false;
 
   if(!containerDetected){
     for(int i = 0; i < MAX_CONTAINERS; i++){
@@ -68,10 +76,14 @@ bool Clasificador::containerDetection(){
         }
       if(containers[j] && !this->switchState[j]){
         containers[j] = 0;
+        removedContainer = true;
       }
     }
-    if(newContainer){ \
+    if(newContainer){
       containerNumber++; 
+    }
+    if(removedContainer){
+      containerNumber--;
     }
     return true;
   }
@@ -79,7 +91,7 @@ bool Clasificador::containerDetection(){
   return false;
 }
 
-void Clasificador::serialCommSendContainers(){
+void Classifier::serialCommSendContainers(){
   /*DESCRIPTION*/
   for(int i = 0; i < MAX_CONTAINERS; i++){
     Serial.print(this->containers[i]);
@@ -87,11 +99,25 @@ void Clasificador::serialCommSendContainers(){
   }
 }
 
-void Clasificador::printSwitchState(){
+void Classifier::printSwitchState(){
   /*DESCRIPTION*/
   for(int i = 0; i < MAX_CONTAINERS; i++){
     Serial.print(this->switchState[i]);
-    Serial.print(" ");
+    Serial.print(",");
   }
-  Serial.println("");
+  Serial.println();
+}
+
+void Classifier::moveClassifier(int angle){
+  // DEBUG
+  // Serial.print("Move classifier. Angle: ");
+  // Serial.println(angle);
+  this->servoMotorClassifier.write(angle);
+}
+
+void Classifier::moveRamp(int angle){
+  // DEBUG
+  // Serial.print("Move ramp. Angle: ");
+  // Serial.println(angle);
+  this->servoMotorRamp.write(angle);
 }

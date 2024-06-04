@@ -1,6 +1,4 @@
 import serial
-
-
 import time
 
 # Configura la comunicación serial
@@ -14,18 +12,7 @@ def sendPos(pos):
 try:
     while True:
         # Envía el mensaje al Arduino
-        # sendPos(0)
-        # time.sleep(1)  # Espera 1 segundo antes de enviar el siguiente mensajes
-        # sendPos(30)
-        # time.sleep(1)  # Espera 1 segundo antes de enviar el siguiente mensajes
-        # sendPos(60)
-        # time.sleep(1)  # Espera 1 segundo antes de enviar el siguiente mensajes
-        # sendPos(90)
-        # time.sleep(1)  # Espera 1 segundo antes de enviar el siguiente mensajes
-        # sendPos(120)
-        # time.sleep(1)  # Espera 1 segundo antes de enviar el siguiente mensajes
-        # sendPos(150)
-        # time.sleep(1)  # Espera 1 segundo antes de enviar el siguiente mensajes
+
         mensaje = "mode0"  # Formato del mensaje: m1p60, seguido de un salto de línea
         arduino.write(mensaje.encode())  # Codifica y envía el mensaje
         print("PYTHON: Mensaje enviado:", mensaje.strip())  # Imprime el mensaje enviado
